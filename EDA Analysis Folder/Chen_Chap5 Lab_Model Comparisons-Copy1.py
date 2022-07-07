@@ -4,7 +4,7 @@
 # In[1]:
 
 
-#The only thing to include in the paper/presentation from this code is the bar graph
+#The only thing to include in the paper/presentation from this code is the bar graph, ignore box plots
 
 import numpy as np
 from matplotlib import pyplot as plt
