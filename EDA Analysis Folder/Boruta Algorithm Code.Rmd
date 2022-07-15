@@ -1,0 +1,92 @@
+---
+title: "Boruta"
+author: "Kaitlyn Hohmeier"
+date: '2022-07-11'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+#install.packages("Boruta")
+library(Boruta)
+library(RColorBrewer)
+```
+
+```{r}
+# 2021 data
+data_sampling = read.csv("SRER21_dataset_v1.csv", header = T)
+data_sampling = na.omit(data_sampling)
+
+data_sampling$Veg_class = as.factor(data_sampling$Veg_class)
+
+str(data_sampling)
+```
+
+```{r}
+table(data_sampling$Veg_class)
+```
+
+```{r}
+# set seed and run the Boruta algorithm
+set.seed(200)
+traindata = subset(data_sampling, select = -c(ï..OID_,Id,gridcode,Shape_Length,Shape_Area))
+boruta.test <- Boruta(Veg_class~., data = traindata, doTrace = 2)
+print(boruta.test)  # print final output of Boruta
+```
+
+```{r}
+plot(boruta.test, col = brewer.pal(11, "PRGn"))  # box plot
+```
+
+```{r}
+attStats(boruta.test)  # table
+```
+
+```{r}
+getConfirmedFormula(boruta.test)  # model
+```
+
+```{r}
+# 2017 data
+data_sampling17 = read.csv("SRER_2017_training_bi.csv", header = T)
+data_sampling17 = na.omit(data_sampling17)
+
+
+data_sampling17$Veg_class = as.factor(data_sampling17$Veg_class)
+
+str(data_sampling17)
+
+```
+
+```{r}
+table(data_sampling17$Veg_class)
+
+```
+
+```{r}
+
+# set seed and run the Boruta algorithm
+set.seed(200)
+traindata17 = subset(data_sampling17, select = -c(OID_,Id,gridcode,Shape_Length,Shape_Area))
+boruta.test17 <- Boruta(Veg_class~., data = traindata17, doTrace = 2)
+print(boruta.test17)  # print final output of Boruta
+
+```
+
+```{r}
+plot(boruta.test17, col = brewer.pal(11, "PRGn"))  # box plot
+```
+
+```{r}
+attStats(boruta.test17)  # table
+```
+
+```{r}
+getConfirmedFormula(boruta.test17)  # model
+```
+
